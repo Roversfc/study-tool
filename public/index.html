@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUDY — Content Intelligence Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0a0a0a;--surface:#111;--surface2:#1a1a1a;
+    --border:#222;--accent:#e8ff00;--accent2:#ff3c3c;
+    --text:#f0f0f0;--muted:#666;--muted2:#444;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.35;}
+
+  header{border-bottom:1px solid var(--border);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg);z-index:100;}
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;color:var(--accent);}
+  .logo span{color:var(--muted);font-size:12px;font-family:'DM Mono',monospace;letter-spacing:2px;margin-left:12px;vertical-align:middle;}
+  .pill{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;padding:6px 14px;border-radius:100px;border:1px solid var(--border);color:var(--muted);text-transform:uppercase;transition:all 0.3s;}
+  .pill.ready{border-color:var(--accent);color:var(--accent);background:rgba(232,255,0,0.05);}
+  .pill.busy{border-color:#888;color:#888;}
+  .pill.err{border-color:var(--accent2);color:var(--accent2);}
+
+  .main{display:grid;grid-template-columns:420px 1fr;height:calc(100vh - 65px);}
+  .left{border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+  .ph{padding:24px 28px 16px;border-bottom:1px solid var(--border);}
+  .pt{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+  .ps{font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;}
+
+  .tabs{display:flex;border-bottom:1px solid var(--border);}
+  .tab{flex:1;padding:14px;font-size:11px;font-family:'DM Mono',monospace;letter-spacing:1px;text-transform:uppercase;text-align:center;cursor:pointer;color:var(--muted);border:none;background:none;border-bottom:2px solid transparent;transition:all 0.2s;}
+  .tab:hover{color:var(--text);}
+  .tab.on{color:var(--accent);border-bottom-color:var(--accent);background:rgba(232,255,0,0.03);}
+
+  .ia{padding:24px 28px;flex:1;display:flex;flex-direction:column;gap:14px;overflow-y:auto;}
+  .ig{display:flex;flex-direction:column;gap:7px;}
+  .lbl{font-size:11px;font-family:'DM Mono',monospace;letter-spacing:1px;color:var(--muted);text-transform:uppercase;}
+  .field{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;width:100%;}
+  .field:focus{border-color:var(--accent);}
+  .field::placeholder{color:var(--muted2);}
+  textarea.field{resize:none;min-height:110px;line-height:1.6;}
+
+  .url-wrap{display:flex;gap:8px;}
+  .url-wrap .field{flex:1;}
+  .fbtn{padding:0 18px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;cursor:pointer;transition:all 0.2s;white-space:nowrap;text-transform:uppercase;}
+  .fbtn:hover{border-color:var(--accent);color:var(--accent);}
+  .fbtn:disabled{opacity:0.35;cursor:not-allowed;}
+
+  .chips{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+  .chip{padding:8px 10px;border-radius:6px;border:1px solid var(--border);font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);cursor:pointer;transition:all 0.2s;text-align:center;background:none;}
+  .chip:hover{border-color:var(--muted);color:var(--text);}
+  .chip.on{border-color:var(--accent);color:var(--accent);background:rgba(232,255,0,0.05);}
+
+  .posts-wrap{display:none;flex-direction:column;gap:8px;}
+  .posts-wrap.show{display:flex;}
+  .posts-hd{display:flex;align-items:center;justify-content:space-between;}
+  .posts-lbl{font-size:10px;font-family:'DM Mono',monospace;letter-spacing:2px;color:var(--accent);text-transform:uppercase;}
+  .sel-all{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+  .sel-all:hover{color:var(--accent);}
+  .plist{display:flex;flex-direction:column;gap:5px;max-height:150px;overflow-y:auto;}
+  .pitem{padding:9px 13px;background:var(--surface);border:1px solid var(--border);border-radius:6px;font-size:12px;color:var(--muted);cursor:pointer;transition:all 0.2s;line-height:1.4;}
+  .pitem:hover{border-color:var(--accent);color:var(--text);}
+  .pitem.on{border-color:var(--accent);background:rgba(232,255,0,0.05);color:var(--text);}
+  .pmeta{font-size:10px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:3px;}
+
+  .abtn{margin-top:auto;padding:16px;background:var(--accent);color:#000;border:none;border-radius:8px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:3px;cursor:pointer;transition:all 0.2s;width:100%;}
+  .abtn:hover{background:#fff;transform:translateY(-1px);}
+  .abtn:disabled{background:var(--surface2);color:var(--muted);cursor:not-allowed;transform:none;}
+
+  .mp{display:none;}
+  .mp.on{display:flex;flex-direction:column;gap:14px;}
+
+  .hlbl{font-size:10px;font-family:'DM Mono',monospace;letter-spacing:2px;color:var(--muted2);text-transform:uppercase;padding:16px 28px 0;}
+  .hlist{padding:8px 28px 16px;display:flex;flex-direction:column;gap:6px;max-height:130px;overflow-y:auto;border-top:1px solid var(--border);}
+  .hitem{padding:9px 13px;border-radius:6px;border:1px solid var(--border);font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+  .right{display:flex;flex-direction:column;overflow:hidden;}
+  .rh{padding:22px 40px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .rt{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;}
+  .cbtn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;padding:6px 14px;border-radius:6px;border:1px solid var(--border);color:var(--muted);background:none;cursor:pointer;transition:all 0.2s;text-transform:uppercase;display:none;}
+  .cbtn:hover{border-color:var(--accent);color:var(--accent);}
+  .cbtn.show{display:block;}
+  .ra{flex:1;overflow-y:auto;padding:36px 40px;}
+
+  .empty{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:0.35;}
+  .ei{font-size:48px;filter:grayscale(1);}
+  .et{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:4px;color:var(--muted);}
+  .es{font-size:13px;color:var(--muted2);font-family:'DM Mono',monospace;text-align:center;max-width:280px;line-height:1.6;}
+
+  .loading{height:100%;display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;}
+  .loading.show{display:flex;}
+  .lbar{width:200px;height:2px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+  .lfill{height:100%;background:var(--accent);border-radius:2px;animation:ld 1.4s ease-in-out infinite;}
+  @keyframes ld{0%{width:0%;margin-left:0}50%{width:70%;margin-left:15%}100%{width:0%;margin-left:100%}}
+  .ltxt{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+
+  .results{display:none;flex-direction:column;gap:28px;animation:fi 0.4s ease;}
+  .results.show{display:flex;}
+  @keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+  .rs{border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .rsh{padding:13px 20px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+  .tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:rgba(232,255,0,0.1);color:var(--accent);border:1px solid rgba(232,255,0,0.2);}
+  .tag.r{background:rgba(255,60,60,0.1);color:var(--accent2);border-color:rgba(255,60,60,0.2);}
+  .tag.w{background:rgba(240,240,240,0.05);color:var(--text);border-color:rgba(240,240,240,0.1);}
+  .rsn{font-size:13px;font-weight:500;color:var(--text);}
+  .rsb{padding:20px;font-size:14px;line-height:1.8;color:#ccc;}
+  .rsb strong{color:var(--text);font-weight:600;}
+  .rsb .hl{color:var(--accent);font-family:'DM Mono',monospace;font-size:13px;}
+  .rsb ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .rsb ul li{padding-left:16px;position:relative;}
+  .rsb ul li::before{content:'—';position:absolute;left:0;color:var(--accent);}
+  .sblock{background:var(--surface);border-radius:8px;padding:20px;font-family:'DM Mono',monospace;font-size:13px;line-height:2;color:var(--text);border-left:3px solid var(--accent);white-space:pre-wrap;}
+
+  ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">STUDY <span>// CONTENT INTELLIGENCE</span></div>
+  <div class="pill ready" id="pill">● READY</div>
+</header>
+
+<div class="main">
+  <div class="left">
+    <div class="ph"><div class="pt">Input</div><div class="ps">paste a link → study the content</div></div>
+    <div class="tabs">
+      <button class="tab on" onclick="setMode('ig')">Instagram</button>
+      <button class="tab" onclick="setMode('sc')">Script</button>
+      <button class="tab" onclick="setMode('wr')">Write</button>
+    </div>
+    <div class="ia">
+
+      <!-- IG MODE -->
+      <div class="mp on" id="mp-ig">
+        <div class="ig">
+          <div class="lbl">Profile or Reel URL</div>
+          <div class="url-wrap">
+            <input class="field" id="igurl" placeholder="https://www.instagram.com/thebossboxing/" />
+            <button class="fbtn" id="fbtn" onclick="doFetch()">FETCH</button>
+          </div>
+          <div style="font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;line-height:1.6;">
+            Profile URL → pulls last 10 reels<br>
+            Reel URL → analyzes that specific reel
+          </div>
+        </div>
+
+        <div class="posts-wrap" id="pwrap">
+          <div class="posts-hd">
+            <div class="posts-lbl" id="plbl">0 reels fetched</div>
+            <button class="sel-all" onclick="selAll()">Select All</button>
+          </div>
+          <div class="plist" id="plist"></div>
+        </div>
+
+        <div class="ig">
+          <div class="lbl">Analyze For</div>
+          <div class="chips">
+            <button class="chip on" onclick="tog(this)">Hook Style</button>
+            <button class="chip on" onclick="tog(this)">Story Format</button>
+            <button class="chip on" onclick="tog(this)">Emotional Arc</button>
+            <button class="chip on" onclick="tog(this)">What To Steal</button>
+            <button class="chip" onclick="tog(this)">Anchor Lines</button>
+            <button class="chip" onclick="tog(this)">CTA Analysis</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCRIPT MODE -->
+      <div class="mp" id="mp-sc">
+        <div class="ig">
+          <div class="lbl">Paste Script or Transcript</div>
+          <textarea class="field" id="sctxt" placeholder="Paste script or transcript here..." style="min-height:180px"></textarea>
+        </div>
+        <div class="ig">
+          <div class="lbl">Focus Area (optional)</div>
+          <input class="field" id="scfocus" placeholder="e.g. hook, pacing, emotional arc..." />
+        </div>
+      </div>
+
+      <!-- WRITE MODE -->
+      <div class="mp" id="mp-wr">
+        <div class="ig">
+          <div class="lbl">Topic / Scene</div>
+          <input class="field" id="wrtopic" placeholder="e.g. getting knocked down in the gym..." />
+        </div>
+        <div class="ig">
+          <div class="lbl">Story Format</div>
+          <div class="chips" id="fmtchips">
+            <button class="chip on" onclick="setFmt(this)" data-v="Rock Bottom / Redemption">Rock Bottom</button>
+            <button class="chip" onclick="setFmt(this)" data-v="Drift Story">Drift Story</button>
+            <button class="chip" onclick="setFmt(this)" data-v="Underdog Chaos">Underdog</button>
+            <button class="chip" onclick="setFmt(this)" data-v="Full Circle">Full Circle</button>
+          </div>
+        </div>
+        <div class="ig">
+          <div class="lbl">Tone</div>
+          <div class="chips" id="tonechips">
+            <button class="chip on" onclick="setTone(this)" data-v="Intense and cinematic">Cinematic</button>
+            <button class="chip" onclick="setTone(this)" data-v="Raw and unfiltered">Raw</button>
+            <button class="chip" onclick="setTone(this)" data-v="Reflective and calm">Reflective</button>
+            <button class="chip" onclick="setTone(this)" data-v="High energy">High Energy</button>
+          </div>
+        </div>
+        <div class="ig">
+          <div class="lbl">Niche / Context</div>
+          <input class="field" id="wrniche" placeholder="e.g. boxing, soccer, entrepreneurship..." />
+        </div>
+      </div>
+
+      <button class="abtn" id="abtn" onclick="doAnalyze()">ANALYZE</button>
+    </div>
+    <div class="hlbl">Recent</div>
+    <div class="hlist" id="hlist"><div style="font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace">No history yet</div></div>
+  </div>
+
+  <div class="right">
+    <div class="rh">
+      <div class="rt">Analysis Output</div>
+      <button class="cbtn" id="cbtn" onclick="doCopy()">Copy All</button>
+    </div>
+    <div class="ra">
+      <div class="empty" id="empty">
+        <div class="ei">⚡</div>
+        <div class="et">Ready To Study</div>
+        <div class="es">Paste a profile or reel URL and hit Fetch.</div>
+      </div>
+      <div class="loading" id="loading">
+        <div class="lbar"><div class="lfill"></div></div>
+        <div class="ltxt" id="ltxt">Working...</div>
+      </div>
+      <div class="results" id="results"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let mode='ig', fmt='Rock Bottom / Redemption', tone='Intense and cinematic';
+  let posts=[], sel=new Set(), hist=[], raw='';
+
+  function setMode(m) {
+    mode=m;
+    ['ig','sc','wr'].forEach((v,i)=>{
+      document.querySelectorAll('.tab')[i].classList.toggle('on',v===m);
+      document.getElementById('mp-'+v).classList.toggle('on',v===m);
+    });
+    document.getElementById('abtn').textContent = m==='wr'?'WRITE SCRIPT':'ANALYZE';
+  }
+  function tog(el){el.classList.toggle('on');}
+  function setFmt(el){document.querySelectorAll('#fmtchips .chip').forEach(e=>e.classList.remove('on'));el.classList.add('on');fmt=el.dataset.v;}
+  function setTone(el){document.querySelectorAll('#tonechips .chip').forEach(e=>e.classList.remove('on'));el.classList.add('on');tone=el.dataset.v;}
+  function selAll(){
+    const all=sel.size===posts.length;
+    sel.clear();
+    if(!all) posts.forEach((_,i)=>sel.add(i));
+    document.querySelectorAll('.pitem').forEach((el,i)=>el.classList.toggle('on',!all));
+  }
+  function setPill(t,txt){const p=document.getElementById('pill');p.className='pill '+t;p.textContent=txt;}
+  function setBusy(b,txt='Working...'){
+    document.getElementById('empty').style.display='none';
+    document.getElementById('loading').style.display=b?'flex':'none';
+    document.getElementById('ltxt').textContent=txt;
+    document.getElementById('abtn').disabled=b;
+    document.getElementById('fbtn').disabled=b;
+    setPill(b?'busy':'ready',b?'◌ '+txt.slice(0,22).toUpperCase():'● READY');
+  }
+  function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+  async function doFetch(){
+    const url=document.getElementById('igurl').value.trim();
+    if(!url){alert('Paste an Instagram URL first.');return;}
+    setBusy(true,'Fetching reels...');
+    document.getElementById('pwrap').classList.remove('show');
+    document.getElementById('results').classList.remove('show');
+    document.getElementById('results').innerHTML='';
+    posts=[];sel.clear();
+
+    try{
+      const res = await fetch('/api/fetch-instagram',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({url})
+      });
+      const data = await res.json();
+      if(!res.ok) throw new Error(data.error||'Fetch failed');
+      posts = data.posts;
+      renderPosts();
+      setBusy(false);
+    }catch(err){
+      setBusy(false);
+      setPill('err','● ERROR');
+      showErr(err.message);
+    }
+  }
+
+  function renderPosts(){
+    document.getElementById('plbl').textContent=posts.length+' reel'+(posts.length!==1?'s':'')+' fetched';
+    document.getElementById('plist').innerHTML=posts.map((p,i)=>{
+      const prev=esc(p.caption.slice(0,85))+(p.caption.length>85?'...':'');
+      const meta=[p.likes>0?p.likes.toLocaleString()+' likes':'',p.comments>0?p.comments.toLocaleString()+' comments':''].filter(Boolean).join(' · ');
+      return '<div class="pitem on" onclick="togPost(this,'+i+')">'+(meta?'<div class="pmeta">'+meta+'</div>':'')+prev+'</div>';
+    }).join('');
+    posts.forEach((_,i)=>sel.add(i));
+    document.getElementById('pwrap').classList.add('show');
+  }
+  function togPost(el,i){el.classList.toggle('on');sel.has(i)?sel.delete(i):sel.add(i);}
+
+  function buildPrompt(){
+    if(mode==='ig'){
+      if(!posts.length){alert('Fetch reels first.');return null;}
+      if(!sel.size){alert('Select at least one reel.');return null;}
+      const chips=[...document.querySelectorAll('#mp-ig .chip.on')].map(c=>c.textContent);
+      const url=document.getElementById('igurl').value.trim();
+      const isReel=url.includes('/reel/')||url.includes('/p/');
+      const src=isReel?'this reel':'@'+url.replace(/\/$/, '').split('/').filter(Boolean).pop();
+      const content=[...sel].sort().map(i=>'REEL '+(i+1)+':\n'+posts[i].caption).join('\n\n---\n\n');
+      return `You are a content strategist and storytelling expert analyzing Instagram reels for Ismael Marquez — a creator and entrepreneur focused on boxing, soccer, and brand building.
+
+Analyze the following ${sel.size} reel(s) from ${src}. Cover: ${chips.join(', ')}.
+
+Use these exact section headers:
+1. HOOK ANALYSIS — Hook types used and why they work
+2. STORYTELLING FORMAT — Which formats they rely on
+3. EMOTIONAL ARC — How emotion moves through the content
+4. ANCHOR LINES — Most quotable/shareable lines and why
+5. WHAT TO STEAL — Specific techniques Ismael applies immediately to his boxing and soccer content
+
+Be specific, strategic, actionable.
+
+Content:
+${content}`;
+    }
+    if(mode==='sc'){
+      const txt=document.getElementById('sctxt').value.trim();
+      if(!txt){alert('Paste a script first.');return null;}
+      const focus=document.getElementById('scfocus').value.trim();
+      return `You are a storytelling expert breaking down a script for Ismael Marquez, a boxing and soccer content creator.
+
+Analyze with these exact section headers:
+1. HOOK ANALYSIS — Hook type and why it works
+2. STORYTELLING FORMAT — Which format and why
+3. EMOTIONAL ARC — How emotion moves through the piece
+4. ANCHOR LINES — Most quotable lines and why
+5. PACING & STRUCTURE — Beat by beat breakdown
+6. WHAT TO STEAL — Techniques to apply immediately
+
+${focus?'Focus especially on: '+focus+'\n\n':''}Script:\n${txt}`;
+    }
+    if(mode==='wr'){
+      const topic=document.getElementById('wrtopic').value.trim();
+      if(!topic){alert('Enter a topic first.');return null;}
+      const niche=document.getElementById('wrniche').value.trim();
+      return `You are writing a short-form video script for Ismael Marquez:
+- 26-year-old creator/entrepreneur, Phoenix AZ
+- Niches: boxing, soccer, brand building, personal growth
+- Voice: direct, cinematic, emotionally honest, never preachy
+- Specific scenes over generic statements
+- Uses contrast, confession, and universal truth
+- Never uses corporate language or motivational filler
+
+Write a 60-90 second script using the ${fmt} format.
+Topic: ${topic}
+Context: ${niche||'boxing and personal growth'}
+Tone: ${tone}
+
+Structure:
+- Punchy one-sentence hook
+- Specific scene or moment
+- Honest confession or turn
+- Universal anchor line
+- Short payoff or lesson
+
+End with "THE ANCHOR LINE" — the single most quotable line.`;
+    }
+  }
+
+  async function doAnalyze(){
+    const prompt=buildPrompt();
+    if(!prompt) return;
+    const msgs={ig:'Breaking down the formula...',sc:'Dissecting structure...',wr:'Writing in your voice...'};
+    setBusy(true,msgs[mode]);
+    document.getElementById('results').classList.remove('show');
+    document.getElementById('results').innerHTML='';
+    try{
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+      });
+      const data=await res.json();
+      const txt=(data.content||[]).map(c=>c.text||'').join('');
+      if(!txt) throw new Error('No response from AI.');
+      setBusy(false);
+      render(txt);
+      const lbl=mode==='ig'?('IG: '+document.getElementById('igurl').value.replace(/\/$/, '').split('/').filter(Boolean).pop()):mode==='wr'?(document.getElementById('wrtopic').value||'Script'):'Script Breakdown';
+      addHist(lbl);
+    }catch(err){
+      setBusy(false);
+      showErr(err.message);
+    }
+  }
+
+  function showErr(msg){
+    document.getElementById('results').classList.add('show');
+    document.getElementById('results').innerHTML='<div class="rs"><div class="rsh"><span class="tag r">ERROR</span><span class="rsn">Something went wrong</span></div><div class="rsb"><strong style="color:var(--accent2)">'+esc(msg)+'</strong><br><br><span style="color:var(--muted);font-size:12px;font-family:\'DM Mono\',monospace">Make sure the account is public and the URL is correct.</span></div></div>';
+  }
+
+  function render(txt){
+    raw=txt;
+    const box=document.getElementById('results');
+    box.innerHTML='';
+    const secs=txt.split(/\n(?=\d+\.|THE ANCHOR LINE)/g).filter(s=>s.trim());
+    if(secs.length<=1){
+      box.innerHTML='<div class="rs"><div class="rsh"><span class="tag">SCRIPT</span><span class="rsn">Generated Script</span></div><div class="rsb"><div class="sblock">'+esc(txt.trim())+'</div></div></div>';
+    } else {
+      secs.forEach(sec=>{
+        const lines=sec.trim().split('\n');
+        const title=lines[0].replace(/^[\d.#\s]+/,'').trim();
+        const body=lines.slice(1).join('\n').trim();
+        const fw=title.split(' ')[0].toUpperCase();
+        const tc=['EMOTIONAL'].some(w=>fw.startsWith(w))?'r':['WHAT','PACING'].some(w=>fw.startsWith(w))?'w':'';
+        const d=document.createElement('div');
+        d.className='rs';
+        d.innerHTML='<div class="rsh"><span class="tag '+tc+'">'+fw+'</span><span class="rsn">'+esc(title)+'</span></div><div class="rsb">'+fmtBody(body)+'</div>';
+        box.appendChild(d);
+      });
+    }
+    box.classList.add('show');
+    document.getElementById('cbtn').classList.add('show');
+  }
+
+  function fmtBody(txt){
+    if(!txt) return '';
+    const lines=txt.split('\n').filter(l=>l.trim());
+    const avg=lines.reduce((a,b)=>a+b.length,0)/(lines.length||1);
+    if(avg<80&&lines.length>4) return '<div class="sblock">'+esc(txt)+'</div>';
+    return lines.map(l=>{
+      const t=l.trim();
+      if(t.startsWith('-')||t.startsWith('•')||t.match(/^\d+\./)) return '<ul><li>'+bold(t.replace(/^[-•\d.]\s*/,''))+'</li></ul>';
+      return t?'<p style="margin-bottom:9px">'+bold(t)+'</p>':'';
+    }).join('');
+  }
+  function bold(t){return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/"([^"]+)"/g,'<span class="hl">"$1"</span>');}
+  function addHist(lbl){hist.unshift(lbl);if(hist.length>5)hist.pop();document.getElementById('hlist').innerHTML=hist.map(h=>'<div class="hitem">'+esc(h)+'</div>').join('');}
+  function doCopy(){navigator.clipboard.writeText(raw).then(()=>{const b=document.getElementById('cbtn');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy All',2000);});}
+</script>
+</body>
+</html>
