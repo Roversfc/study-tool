@@ -14,7 +14,6 @@
   *{margin:0;padding:0;box-sizing:border-box;}
   body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
   body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.35;}
-
   header{border-bottom:1px solid var(--border);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg);z-index:100;}
   .logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px;color:var(--accent);}
   .logo span{color:var(--muted);font-size:12px;font-family:'DM Mono',monospace;letter-spacing:2px;margin-left:12px;vertical-align:middle;}
@@ -22,18 +21,15 @@
   .pill.ready{border-color:var(--accent);color:var(--accent);background:rgba(232,255,0,0.05);}
   .pill.busy{border-color:#888;color:#888;}
   .pill.err{border-color:var(--accent2);color:var(--accent2);}
-
-  .main{display:grid;grid-template-columns:420px 1fr;height:calc(100vh - 65px);}
+  .main{display:grid;grid-template-columns:380px 1fr;height:calc(100vh - 65px);}
   .left{border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
   .ph{padding:24px 28px 16px;border-bottom:1px solid var(--border);}
   .pt{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
   .ps{font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;}
-
   .tabs{display:flex;border-bottom:1px solid var(--border);}
   .tab{flex:1;padding:14px;font-size:11px;font-family:'DM Mono',monospace;letter-spacing:1px;text-transform:uppercase;text-align:center;cursor:pointer;color:var(--muted);border:none;background:none;border-bottom:2px solid transparent;transition:all 0.2s;}
   .tab:hover{color:var(--text);}
   .tab.on{color:var(--accent);border-bottom-color:var(--accent);background:rgba(232,255,0,0.03);}
-
   .ia{padding:24px 28px;flex:1;display:flex;flex-direction:column;gap:14px;overflow-y:auto;}
   .ig{display:flex;flex-direction:column;gap:7px;}
   .lbl{font-size:11px;font-family:'DM Mono',monospace;letter-spacing:1px;color:var(--muted);text-transform:uppercase;}
@@ -41,18 +37,15 @@
   .field:focus{border-color:var(--accent);}
   .field::placeholder{color:var(--muted2);}
   textarea.field{resize:none;min-height:110px;line-height:1.6;}
-
   .url-wrap{display:flex;gap:8px;}
   .url-wrap .field{flex:1;}
   .fbtn{padding:0 18px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;cursor:pointer;transition:all 0.2s;white-space:nowrap;text-transform:uppercase;}
   .fbtn:hover{border-color:var(--accent);color:var(--accent);}
   .fbtn:disabled{opacity:0.35;cursor:not-allowed;}
-
   .chips{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
   .chip{padding:8px 10px;border-radius:6px;border:1px solid var(--border);font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);cursor:pointer;transition:all 0.2s;text-align:center;background:none;}
   .chip:hover{border-color:var(--muted);color:var(--text);}
   .chip.on{border-color:var(--accent);color:var(--accent);background:rgba(232,255,0,0.05);}
-
   .posts-wrap{display:none;flex-direction:column;gap:8px;}
   .posts-wrap.show{display:flex;}
   .posts-hd{display:flex;align-items:center;justify-content:space-between;}
@@ -64,47 +57,57 @@
   .pitem:hover{border-color:var(--accent);color:var(--text);}
   .pitem.on{border-color:var(--accent);background:rgba(232,255,0,0.05);color:var(--text);}
   .pmeta{font-size:10px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:3px;}
-
   .abtn{margin-top:auto;padding:16px;background:var(--accent);color:#000;border:none;border-radius:8px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:3px;cursor:pointer;transition:all 0.2s;width:100%;}
   .abtn:hover{background:#fff;transform:translateY(-1px);}
   .abtn:disabled{background:var(--surface2);color:var(--muted);cursor:not-allowed;transform:none;}
-
   .mp{display:none;}
   .mp.on{display:flex;flex-direction:column;gap:14px;}
-
   .hlbl{font-size:10px;font-family:'DM Mono',monospace;letter-spacing:2px;color:var(--muted2);text-transform:uppercase;padding:16px 28px 0;}
   .hlist{padding:8px 28px 16px;display:flex;flex-direction:column;gap:6px;max-height:130px;overflow-y:auto;border-top:1px solid var(--border);}
   .hitem{padding:9px 13px;border-radius:6px;border:1px solid var(--border);font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-
   .right{display:flex;flex-direction:column;overflow:hidden;}
   .rh{padding:22px 40px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
   .rt{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;}
   .cbtn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;padding:6px 14px;border-radius:6px;border:1px solid var(--border);color:var(--muted);background:none;cursor:pointer;transition:all 0.2s;text-transform:uppercase;display:none;}
   .cbtn:hover{border-color:var(--accent);color:var(--accent);}
   .cbtn.show{display:block;}
-  .ra{flex:1;overflow-y:auto;padding:36px 40px;}
-
+  .right-body{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+  .ra{flex:1;overflow-y:auto;padding:36px 40px 20px;}
+  .chat-bar{border-top:1px solid var(--border);padding:16px 40px;display:none;gap:10px;align-items:flex-end;background:var(--bg);}
+  .chat-bar.show{display:flex;}
+  .chat-input{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;resize:none;line-height:1.5;max-height:120px;min-height:44px;transition:border-color 0.2s;}
+  .chat-input:focus{border-color:var(--accent);}
+  .chat-input::placeholder{color:var(--muted2);}
+  .chat-send{padding:12px 20px;background:var(--accent);color:#000;border:none;border-radius:8px;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:2px;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+  .chat-send:hover{background:#fff;}
+  .chat-send:disabled{background:var(--surface2);color:var(--muted);cursor:not-allowed;}
+  .chat-suggestions{padding:0 40px 12px;display:none;gap:8px;flex-wrap:wrap;}
+  .chat-suggestions.show{display:flex;}
+  .sug{padding:6px 12px;border-radius:100px;border:1px solid var(--border);font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);cursor:pointer;transition:all 0.2s;background:none;white-space:nowrap;}
+  .sug:hover{border-color:var(--accent);color:var(--accent);}
+  .chat-msg{margin-bottom:24px;animation:fi 0.3s ease;}
+  .chat-msg.user{display:flex;justify-content:flex-end;}
+  .chat-msg.user .msg-bubble{background:var(--surface2);border:1px solid var(--border);border-radius:12px 12px 2px 12px;padding:12px 16px;font-size:14px;max-width:70%;color:var(--text);}
+  .chat-msg.ai .msg-bubble{width:100%;}
   .empty{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:0.35;}
   .ei{font-size:48px;filter:grayscale(1);}
   .et{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:4px;color:var(--muted);}
   .es{font-size:13px;color:var(--muted2);font-family:'DM Mono',monospace;text-align:center;max-width:280px;line-height:1.6;}
-
   .loading{height:100%;display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;}
   .loading.show{display:flex;}
   .lbar{width:200px;height:2px;background:var(--surface2);border-radius:2px;overflow:hidden;}
   .lfill{height:100%;background:var(--accent);border-radius:2px;animation:ld 1.4s ease-in-out infinite;}
   @keyframes ld{0%{width:0%;margin-left:0}50%{width:70%;margin-left:15%}100%{width:0%;margin-left:100%}}
   .ltxt{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
-
-  .results{display:none;flex-direction:column;gap:28px;animation:fi 0.4s ease;}
+  .results{display:none;flex-direction:column;gap:24px;animation:fi 0.4s ease;}
   .results.show{display:flex;}
   @keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
   .rs{border:1px solid var(--border);border-radius:12px;overflow:hidden;}
   .rsh{padding:13px 20px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
   .tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:rgba(232,255,0,0.1);color:var(--accent);border:1px solid rgba(232,255,0,0.2);}
   .tag.r{background:rgba(255,60,60,0.1);color:var(--accent2);border-color:rgba(255,60,60,0.2);}
   .tag.w{background:rgba(240,240,240,0.05);color:var(--text);border-color:rgba(240,240,240,0.1);}
+  .tag.chat{background:rgba(100,100,255,0.1);color:#8888ff;border-color:rgba(100,100,255,0.2);}
   .rsn{font-size:13px;font-weight:500;color:var(--text);}
   .rsb{padding:20px;font-size:14px;line-height:1.8;color:#ccc;}
   .rsb strong{color:var(--text);font-weight:600;}
@@ -113,7 +116,11 @@
   .rsb ul li{padding-left:16px;position:relative;}
   .rsb ul li::before{content:'—';position:absolute;left:0;color:var(--accent);}
   .sblock{background:var(--surface);border-radius:8px;padding:20px;font-family:'DM Mono',monospace;font-size:13px;line-height:2;color:var(--text);border-left:3px solid var(--accent);white-space:pre-wrap;}
-
+  .chat-loading{display:flex;gap:6px;align-items:center;padding:16px 20px;}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 1.2s ease-in-out infinite;}
+  .dot:nth-child(2){animation-delay:0.2s;}
+  .dot:nth-child(3){animation-delay:0.4s;}
+  @keyframes pulse{0%,80%,100%{opacity:0.3}40%{opacity:1}}
   ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 </style>
 </head>
@@ -122,7 +129,6 @@
   <div class="logo">STUDY <span>// CONTENT INTELLIGENCE</span></div>
   <div class="pill ready" id="pill">● READY</div>
 </header>
-
 <div class="main">
   <div class="left">
     <div class="ph"><div class="pt">Input</div><div class="ps">paste a link → study the content</div></div>
@@ -132,13 +138,11 @@
       <button class="tab" onclick="setMode('wr')">Write</button>
     </div>
     <div class="ia">
-
-      <!-- IG MODE -->
       <div class="mp on" id="mp-ig">
         <div class="ig">
           <div class="lbl">Profile or Reel URL</div>
           <div class="url-wrap">
-            <input class="field" id="igurl" placeholder="https://www.instagram.com/thebossboxing/" />
+            <input class="field" id="igurl" placeholder="https://www.instagram.com/username/" />
             <button class="fbtn" id="fbtn" onclick="doFetch()">FETCH</button>
           </div>
           <div style="font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;line-height:1.6;">
@@ -146,7 +150,6 @@
             Reel URL → analyzes that specific reel
           </div>
         </div>
-
         <div class="posts-wrap" id="pwrap">
           <div class="posts-hd">
             <div class="posts-lbl" id="plbl">0 reels fetched</div>
@@ -154,21 +157,18 @@
           </div>
           <div class="plist" id="plist"></div>
         </div>
-
         <div class="ig">
           <div class="lbl">Analyze For</div>
           <div class="chips">
             <button class="chip on" onclick="tog(this)">Hook Style</button>
             <button class="chip on" onclick="tog(this)">Story Format</button>
             <button class="chip on" onclick="tog(this)">Emotional Arc</button>
-            <button class="chip on" onclick="tog(this)">What To Steal</button>
-            <button class="chip" onclick="tog(this)">Anchor Lines</button>
+            <button class="chip on" onclick="tog(this)">Anchor Lines</button>
+            <button class="chip" onclick="tog(this)">Pacing</button>
             <button class="chip" onclick="tog(this)">CTA Analysis</button>
           </div>
         </div>
       </div>
-
-      <!-- SCRIPT MODE -->
       <div class="mp" id="mp-sc">
         <div class="ig">
           <div class="lbl">Paste Script or Transcript</div>
@@ -179,8 +179,6 @@
           <input class="field" id="scfocus" placeholder="e.g. hook, pacing, emotional arc..." />
         </div>
       </div>
-
-      <!-- WRITE MODE -->
       <div class="mp" id="mp-wr">
         <div class="ig">
           <div class="lbl">Topic / Scene</div>
@@ -205,55 +203,65 @@
           </div>
         </div>
         <div class="ig">
-          <div class="lbl">Niche / Context</div>
-          <input class="field" id="wrniche" placeholder="e.g. boxing, soccer, entrepreneurship..." />
+          <div class="lbl">Niche / Context (optional)</div>
+          <input class="field" id="wrniche" placeholder="e.g. boxing, soccer, brand building..." />
         </div>
       </div>
-
       <button class="abtn" id="abtn" onclick="doAnalyze()">ANALYZE</button>
     </div>
     <div class="hlbl">Recent</div>
     <div class="hlist" id="hlist"><div style="font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace">No history yet</div></div>
   </div>
-
   <div class="right">
     <div class="rh">
       <div class="rt">Analysis Output</div>
       <button class="cbtn" id="cbtn" onclick="doCopy()">Copy All</button>
     </div>
-    <div class="ra">
-      <div class="empty" id="empty">
-        <div class="ei">⚡</div>
-        <div class="et">Ready To Study</div>
-        <div class="es">Paste a profile or reel URL and hit Fetch.</div>
+    <div class="right-body">
+      <div class="ra" id="ra">
+        <div class="empty" id="empty">
+          <div class="ei">⚡</div>
+          <div class="et">Ready To Study</div>
+          <div class="es">Paste a profile or reel URL and hit Fetch.</div>
+        </div>
+        <div class="loading" id="loading">
+          <div class="lbar"><div class="lfill"></div></div>
+          <div class="ltxt" id="ltxt">Working...</div>
+        </div>
+        <div class="results" id="results"></div>
       </div>
-      <div class="loading" id="loading">
-        <div class="lbar"><div class="lfill"></div></div>
-        <div class="ltxt" id="ltxt">Working...</div>
+      <div class="chat-suggestions" id="chatSugs">
+        <button class="sug" onclick="useSug(this)">Give me 3 versions of the best hook</button>
+        <button class="sug" onclick="useSug(this)">What to steal for soccer content</button>
+        <button class="sug" onclick="useSug(this)">What to steal for boxing content</button>
+        <button class="sug" onclick="useSug(this)">Rewrite the anchor line, make it punchier</button>
+        <button class="sug" onclick="useSug(this)">Write me a script using this format</button>
       </div>
-      <div class="results" id="results"></div>
+      <div class="chat-bar" id="chatBar">
+        <textarea class="chat-input" id="chatInput" placeholder="Ask a follow-up... e.g. give me 3 versions of this hook" rows="1" onkeydown="chatKeydown(event)" oninput="autoResize(this)"></textarea>
+        <button class="chat-send" id="chatSend" onclick="sendChat()">SEND</button>
+      </div>
     </div>
   </div>
 </div>
-
 <script>
-  let mode='ig', fmt='Rock Bottom / Redemption', tone='Intense and cinematic';
-  let posts=[], sel=new Set(), hist=[], raw='';
+  let mode='ig',fmt='Rock Bottom / Redemption',tone='Intense and cinematic';
+  let posts=[],sel=new Set(),hist=[],raw='';
+  let chatHistory=[],analysisContext='';
 
-  function setMode(m) {
+  function setMode(m){
     mode=m;
     ['ig','sc','wr'].forEach((v,i)=>{
       document.querySelectorAll('.tab')[i].classList.toggle('on',v===m);
       document.getElementById('mp-'+v).classList.toggle('on',v===m);
     });
-    document.getElementById('abtn').textContent = m==='wr'?'WRITE SCRIPT':'ANALYZE';
+    document.getElementById('abtn').textContent=m==='wr'?'WRITE SCRIPT':'ANALYZE';
   }
   function tog(el){el.classList.toggle('on');}
   function setFmt(el){document.querySelectorAll('#fmtchips .chip').forEach(e=>e.classList.remove('on'));el.classList.add('on');fmt=el.dataset.v;}
   function setTone(el){document.querySelectorAll('#tonechips .chip').forEach(e=>e.classList.remove('on'));el.classList.add('on');tone=el.dataset.v;}
   function selAll(){
-    const all=sel.size===posts.length;
-    sel.clear();
+    const all=sel.size===posts.length;sel.clear();
     if(!all) posts.forEach((_,i)=>sel.add(i));
     document.querySelectorAll('.pitem').forEach((el,i)=>el.classList.toggle('on',!all));
   }
@@ -264,9 +272,13 @@
     document.getElementById('ltxt').textContent=txt;
     document.getElementById('abtn').disabled=b;
     document.getElementById('fbtn').disabled=b;
+    document.getElementById('chatSend').disabled=b;
     setPill(b?'busy':'ready',b?'◌ '+txt.slice(0,22).toUpperCase():'● READY');
   }
   function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
+  function chatKeydown(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
+  function useSug(el){document.getElementById('chatInput').value=el.textContent;sendChat();}
 
   async function doFetch(){
     const url=document.getElementById('igurl').value.trim();
@@ -275,24 +287,20 @@
     document.getElementById('pwrap').classList.remove('show');
     document.getElementById('results').classList.remove('show');
     document.getElementById('results').innerHTML='';
-    posts=[];sel.clear();
-
+    document.getElementById('chatBar').classList.remove('show');
+    document.getElementById('chatSugs').classList.remove('show');
+    posts=[];sel.clear();chatHistory=[];analysisContext='';
     try{
-      const res = await fetch('/.netlify/functions/fetch-instagram',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
+      const res=await fetch('/.netlify/functions/fetch-instagram',{
+        method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({url})
       });
-      const data = await res.json();
+      const data=await res.json();
       if(!res.ok) throw new Error(data.error||'Fetch failed');
-      posts = data.posts;
+      posts=data.posts;
       renderPosts();
       setBusy(false);
-    }catch(err){
-      setBusy(false);
-      setPill('err','● ERROR');
-      showErr(err.message);
-    }
+    }catch(err){setBusy(false);setPill('err','● ERROR');showErr(err.message);}
   }
 
   function renderPosts(){
@@ -316,18 +324,18 @@
       const isReel=url.includes('/reel/')||url.includes('/p/');
       const src=isReel?'this reel':'@'+url.replace(/\/$/, '').split('/').filter(Boolean).pop();
       const content=[...sel].sort().map(i=>'REEL '+(i+1)+':\n'+posts[i].caption).join('\n\n---\n\n');
-      return `You are a content strategist and storytelling expert analyzing Instagram reels for Ismael Marquez — a creator and entrepreneur focused on boxing, soccer, and brand building.
+      return `You are a content strategist and storytelling expert. Analyze the following content from ${src}.
 
-Analyze the following ${sel.size} reel(s) from ${src}. Cover: ${chips.join(', ')}.
+Cover these areas: ${chips.join(', ')}.
 
 Use these exact section headers:
-1. HOOK ANALYSIS — Hook types used and why they work
+1. HOOK ANALYSIS — What hooks they use and why they work
 2. STORYTELLING FORMAT — Which formats they rely on
 3. EMOTIONAL ARC — How emotion moves through the content
-4. ANCHOR LINES — Most quotable/shareable lines and why
-5. WHAT TO STEAL — Specific techniques Ismael applies immediately to his boxing and soccer content
+4. ANCHOR LINES — The most quotable, shareable lines and why they land
+5. PATTERNS — Repeatable structural patterns across these posts
 
-Be specific, strategic, actionable.
+Be specific and strategic. Do not suggest applications to any specific niche unless the user asks.
 
 Content:
 ${content}`;
@@ -336,33 +344,30 @@ ${content}`;
       const txt=document.getElementById('sctxt').value.trim();
       if(!txt){alert('Paste a script first.');return null;}
       const focus=document.getElementById('scfocus').value.trim();
-      return `You are a storytelling expert breaking down a script for Ismael Marquez, a boxing and soccer content creator.
+      return `You are a storytelling expert. Analyze this script.
 
-Analyze with these exact section headers:
+Use these exact section headers:
 1. HOOK ANALYSIS — Hook type and why it works
 2. STORYTELLING FORMAT — Which format and why
 3. EMOTIONAL ARC — How emotion moves through the piece
 4. ANCHOR LINES — Most quotable lines and why
 5. PACING & STRUCTURE — Beat by beat breakdown
-6. WHAT TO STEAL — Techniques to apply immediately
 
-${focus?'Focus especially on: '+focus+'\n\n':''}Script:\n${txt}`;
+Do not suggest applications to any specific niche unless asked.
+${focus?'\nFocus especially on: '+focus:''}
+
+Script:
+${txt}`;
     }
     if(mode==='wr'){
       const topic=document.getElementById('wrtopic').value.trim();
       if(!topic){alert('Enter a topic first.');return null;}
       const niche=document.getElementById('wrniche').value.trim();
-      return `You are writing a short-form video script for Ismael Marquez:
-- 26-year-old creator/entrepreneur, Phoenix AZ
-- Niches: boxing, soccer, brand building, personal growth
-- Voice: direct, cinematic, emotionally honest, never preachy
-- Specific scenes over generic statements
-- Uses contrast, confession, and universal truth
-- Never uses corporate language or motivational filler
+      return `You are an expert short-form video scriptwriter.
 
-Write a 60-90 second script using the ${fmt} format.
+Write a 60-90 second script using the ${fmt} storytelling format.
 Topic: ${topic}
-Context: ${niche||'boxing and personal growth'}
+${niche?'Context: '+niche:''}
 Tone: ${tone}
 
 Structure:
@@ -379,32 +384,101 @@ End with "THE ANCHOR LINE" — the single most quotable line.`;
   async function doAnalyze(){
     const prompt=buildPrompt();
     if(!prompt) return;
-    const msgs={ig:'Breaking down the formula...',sc:'Dissecting structure...',wr:'Writing in your voice...'};
+    const msgs={ig:'Breaking down the content...',sc:'Dissecting structure...',wr:'Writing the script...'};
     setBusy(true,msgs[mode]);
     document.getElementById('results').classList.remove('show');
     document.getElementById('results').innerHTML='';
+    document.getElementById('chatBar').classList.remove('show');
+    document.getElementById('chatSugs').classList.remove('show');
+    chatHistory=[];
     try{
-const res=await fetch('/.netlify/functions/analyze',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
+      const res=await fetch('/.netlify/functions/analyze',{
+        method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({prompt})
       });
       const data=await res.json();
       const txt=(data.content||[]).map(c=>c.text||'').join('');
       if(!txt) throw new Error('No response from AI.');
       setBusy(false);
+      analysisContext=txt;
+      chatHistory=[{role:'user',content:prompt},{role:'assistant',content:txt}];
       render(txt);
+      document.getElementById('chatBar').classList.add('show');
+      document.getElementById('chatSugs').classList.add('show');
+      document.getElementById('cbtn').classList.add('show');
       const lbl=mode==='ig'?('IG: '+document.getElementById('igurl').value.replace(/\/$/, '').split('/').filter(Boolean).pop()):mode==='wr'?(document.getElementById('wrtopic').value||'Script'):'Script Breakdown';
       addHist(lbl);
-    }catch(err){
-      setBusy(false);
-      showErr(err.message);
-    }
+    }catch(err){setBusy(false);showErr(err.message);}
   }
+
+  async function sendChat(){
+    const input=document.getElementById('chatInput');
+    const msg=input.value.trim();
+    if(!msg) return;
+    if(!analysisContext){alert('Run an analysis first.');return;}
+    input.value='';input.style.height='auto';
+    document.getElementById('chatSend').disabled=true;
+    appendChatMsg('user',msg);
+    chatHistory.push({role:'user',content:msg});
+    const loadId='load-'+Date.now();
+    const loadDiv=document.createElement('div');
+    loadDiv.className='chat-msg ai';loadDiv.id=loadId;
+    loadDiv.innerHTML='<div class="rs"><div class="chat-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>';
+    document.getElementById('results').appendChild(loadDiv);
+    scrollBottom();
+    try{
+      const res=await fetch('/.netlify/functions/analyze',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({messages:chatHistory})
+      });
+      const data=await res.json();
+      const txt=(data.content||[]).map(c=>c.text||'').join('');
+      if(!txt) throw new Error('No response.');
+      chatHistory.push({role:'assistant',content:txt});
+      const el=document.getElementById(loadId);if(el) el.remove();
+      appendChatMsg('ai',txt);
+      scrollBottom();
+    }catch(err){
+      const el=document.getElementById(loadId);if(el) el.remove();
+      appendChatMsg('ai','Error: '+err.message);
+    }
+    document.getElementById('chatSend').disabled=false;
+  }
+
+  function appendChatMsg(role,txt){
+    const box=document.getElementById('results');
+    const wrap=document.createElement('div');
+    wrap.className='chat-msg '+role;
+    if(role==='user'){
+      wrap.innerHTML='<div class="msg-bubble">'+esc(txt)+'</div>';
+    } else {
+      const inner=document.createElement('div');
+      inner.className='msg-bubble';
+      const secs=txt.split(/\n(?=\d+\.|##)/g).filter(s=>s.trim());
+      if(secs.length<=1){
+        inner.innerHTML='<div class="rs" style="margin-bottom:0"><div class="rsh"><span class="tag chat">REPLY</span></div><div class="rsb">'+fmtBody(txt)+'</div></div>';
+      } else {
+        secs.forEach(sec=>{
+          const lines=sec.trim().split('\n');
+          const title=lines[0].replace(/^[\d.#\s]+/,'').trim();
+          const body=lines.slice(1).join('\n').trim();
+          const fw=title.split(' ')[0].toUpperCase();
+          const d=document.createElement('div');
+          d.className='rs';d.style.marginBottom='16px';
+          d.innerHTML='<div class="rsh"><span class="tag chat">'+fw+'</span><span class="rsn">'+esc(title)+'</span></div><div class="rsb">'+fmtBody(body)+'</div>';
+          inner.appendChild(d);
+        });
+      }
+      wrap.appendChild(inner);
+    }
+    box.appendChild(wrap);
+  }
+
+  function scrollBottom(){const ra=document.getElementById('ra');ra.scrollTop=ra.scrollHeight;}
 
   function showErr(msg){
     document.getElementById('results').classList.add('show');
-    document.getElementById('results').innerHTML='<div class="rs"><div class="rsh"><span class="tag r">ERROR</span><span class="rsn">Something went wrong</span></div><div class="rsb"><strong style="color:var(--accent2)">'+esc(msg)+'</strong><br><br><span style="color:var(--muted);font-size:12px;font-family:\'DM Mono\',monospace">Make sure the account is public and the URL is correct.</span></div></div>';
+    document.getElementById('results').innerHTML='<div class="rs"><div class="rsh"><span class="tag r">ERROR</span><span class="rsn">Something went wrong</span></div><div class="rsb"><strong style="color:var(--accent2)">'+esc(msg)+'</strong></div></div>';
   }
 
   function render(txt){
@@ -420,15 +494,13 @@ const res=await fetch('/.netlify/functions/analyze',{
         const title=lines[0].replace(/^[\d.#\s]+/,'').trim();
         const body=lines.slice(1).join('\n').trim();
         const fw=title.split(' ')[0].toUpperCase();
-        const tc=['EMOTIONAL'].some(w=>fw.startsWith(w))?'r':['WHAT','PACING'].some(w=>fw.startsWith(w))?'w':'';
-        const d=document.createElement('div');
-        d.className='rs';
+        const tc=['EMOTIONAL'].some(w=>fw.startsWith(w))?'r':['WHAT','PACING','PATTERNS'].some(w=>fw.startsWith(w))?'w':'';
+        const d=document.createElement('div');d.className='rs';
         d.innerHTML='<div class="rsh"><span class="tag '+tc+'">'+fw+'</span><span class="rsn">'+esc(title)+'</span></div><div class="rsb">'+fmtBody(body)+'</div>';
         box.appendChild(d);
       });
     }
     box.classList.add('show');
-    document.getElementById('cbtn').classList.add('show');
   }
 
   function fmtBody(txt){
