@@ -278,7 +278,7 @@
     posts=[];sel.clear();
 
     try{
-      const res = await fetch('/api/fetch-instagram',{
+const res = await fetch('/.netlify/functions/fetch-instagram',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({url})
