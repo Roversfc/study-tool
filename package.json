@@ -1,0 +1,7 @@
+[build]
+  publish = "public"
+  command = "npm install"
+
+[functions]
+  directory = "api"
+  node_bundler = "esbuild"
