@@ -1,7 +1,7 @@
-[build]
-  publish = "public"
-  command = "npm install"
-
-[functions]
-  directory = "api"
-  node_bundler = "esbuild"
+{
+  "name": "study-tool",
+  "version": "1.0.0",
+  "dependencies": {
+    "node-fetch": "2.6.9"
+  }
+}
